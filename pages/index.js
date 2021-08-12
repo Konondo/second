@@ -3,27 +3,14 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { Post } from "../src/models";
 import { withSSRContext } from "aws-amplify";
+import Link from "next/link";
 
 export default function Home(props) {
   return (
     <div className={styles.container}>
-      <div>{props.date}</div>
-      <ul>
-        {JSON.parse(props.posts).map((post) => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul>
+      <Link href={"/second"}>
+        <a>Go to second</a>
+      </Link>
     </div>
   );
-}
-
-export async function getStaticProps(req) {
-  const date = new Date().toString();
-  const { DataStore } = withSSRContext(req);
-  const models = await DataStore.query(Post);
-
-  return {
-    props: { date: date, posts: JSON.stringify(models) },
-    revalidate: 10,
-  };
 }
